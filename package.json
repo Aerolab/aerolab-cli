@@ -1,16 +1,14 @@
 {
-  "name": "aerolab-cli",
-  "version": "1.0.0",
+  "name": "aerolab",
+  "version": "0.1.0",
   "description": "",
-  "main": "index.js",
   "scripts": {
-    "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "bin": {
     "aerolab": "aerolab.js"
   },
-  "author": "",
+  "author": "Aerolab",
   "license": "ISC",
   "dependencies": {
     "dotenv": "^2.0.0",
