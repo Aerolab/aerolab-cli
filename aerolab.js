@@ -44,9 +44,10 @@ let options = process.argv[2];
 if (options === 'config') {
   Config.createConfig().then( () => console.log(''));
 } else {
-  initializeLocalVariables();
-  Config.checkAndSetUpConfig().then( () => init())
-    .catch(e => console.log(e));
+  Config.checkAndSetUpConfig().then( () => {
+    initializeLocalVariables();
+    init();
+   }).catch(e => console.log(e));
 }
 
 // initializeLocalVariables();
@@ -232,10 +233,12 @@ function setUpGitFiles(newRepoAsJson) {
 
   // We add the ssh origin to the git file.
   console.log('Adding remotes...');
-  shell.exec(`git remote add origin ${newRepoAsJson.ssh_url_to_repo}`, {cwd: CURRENT_ROUTE, silent: true});
+  addRemoteToGit(newRepoAsJson.ssh_url_to_repo);
 
-  // add Aerolab's custom gitflow names to dev & master
-  gitFlowInit();
+  if (!isGitFlowInitialized()) {
+    // add Aerolab's custom gitflow names to dev & master
+    gitFlowInit();
+  }
 
   // add the missing files
   console.log('Adding files to repo');
@@ -283,8 +286,26 @@ function gitFlowInit() {
 }
 
 /*
-  Extension should be smth like '.js' or '.gradle', etc.
+Read the git file and check for ocurrences of 'gitflow'.
+ */
+function isGitFlowInitialized() {
+  let gitFile = fs.readFileSync(`${CURRENT_ROUTE}/.git/config`, 'utf8');
+  return gitFile.indexOf('gitflow') >= 0;
+}
 
+function hasRemoteOrigin() {
+  let gitFile = fs.readFileSync(`${CURRENT_ROUTE}/.git/config`, 'utf8');
+  return gitFile.indexOf('[remote "origin"]') >= 0;
+}
+
+// Adds the repo's URL as 'remote' or as 'gitlab', in case remote already exists.
+function addRemoteToGit(urlToRepo) {
+  let name = hasRemoteOrigin() ? 'gitlab' : 'remote';
+  shell.exec(`git remote add ${name} ${urlToRepo}`, {cwd: CURRENT_ROUTE, silent: true});
+}
+
+/*
+  Extension should be smth like '.js' or '.gradle', etc.
  */
 function hasFilesEndingWith(extension) {
   let files = Finder.in(`${CURRENT_ROUTE}`).findFiles(`*${extension}`);

@@ -15,7 +15,8 @@ class Config {
   static checkAndSetUpConfig() {
     return new Promise(function (resolve, reject) {
       if (!hasConfig()) {
-        this.createConfig().then( () => resolve(true));
+        Config.createConfig().then( () =>
+          resolve(true));
       } else {
         resolve(true);
       }
