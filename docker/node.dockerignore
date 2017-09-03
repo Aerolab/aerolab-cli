@@ -1,0 +1,13 @@
+README.md
+LICENSE.md
+.nvmrc
+.gitignore
+.editorconfig
+node_modules
+*.log
+build
+tmp
+dist
+build
+.tmp
+.DS_Store

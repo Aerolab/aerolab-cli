@@ -1,36 +1,22 @@
 #!/usr/bin/env node
 'use strict';
-var Config = require('./methods/config');
-var EndpointsHelper = require('./helper/EndpointsHelper');
-
-var inquirer = require('inquirer');
-var request = require('request');
-
-const fs = require('fs');
-var Finder = require('fs-finder');
-var path = require('path');
-var shell = require('shelljs');
+const Config = require('./methods/config'),
+      EndpointsHelper = require('./helper/EndpointsHelper'),
+      inquirer = require('inquirer'),
+      request = require('request'),
+      fs = require('fs'),
+      Finder = require('fs-finder'),
+      path = require('path'),
+      shell = require('shelljs')
 
 let CURRENT_ROUTE = shell.pwd().stdout;
-
-const GIT_FLOW_SETTINGS = `
-[gitflow "branch"]
-  master = master
-  develop = dev
-[gitflow "prefix"]
-  feature = feature/
-  release = release/
-  hotfix = hotfix/
-  support = support/
-  versiontag = 
-`;
 
 let API_ENDPOINT = '';
 let USER_MAIL = '';
 let PRIVATE_TOKEN = '';
 let endpointsHelper;
+
 console.log('Welcome to Aerolove');
-console.log('Robert is an Alien, never forget.');
 
 let currentFolder = shell.exec(`pwd | grep -o '[^/]*$'`, {silent: true}).stdout;
 // Need to remove the last space because it adds a tab or something.
@@ -274,15 +260,6 @@ function getProjectType() {
   if (hasFilesEndingWith('.gradle')) return 'android';
   if (hasFilesEndingWith('.js') || hasFilesEndingWith('.html')) return 'web';
   return null;
-}
-
-/**
- * In Aerolab, we call the development 'dev'
- * Master is still master.
- */
-function gitFlowInit() {
-  console.log('Initializing Git flow');
-  shell.exec(`echo '${GIT_FLOW_SETTINGS}' >> .git/config`, {cwd: CURRENT_ROUTE, silent: true});
 }
 
 /*

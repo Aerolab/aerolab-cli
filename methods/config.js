@@ -5,9 +5,10 @@ var shell = require('shelljs');
 
 const HOME_PATH = process.env.HOME || process.env.HOMEPATH || process.env.USERPROFILE;
 var HOME_AEROLAB = `${HOME_PATH}/.aerolab`;
-const mailInput = 'Insert your Gitlab e-mail:';
-const tokenInput = `Insert Aerolab's token:`;
-const apiRouteInput = 'Insert link to the API route:';
+
+const nameInput = 'What\'s your name?';
+const mailInput = 'Insert your email at Aerolab?';
+const dokkuInput = 'What\'s the URL for the Dokku Server?';
 
 class Config {
 
@@ -27,20 +28,15 @@ class Config {
     checkOrCreateDirectory();
 
     return new Promise( function (resolve, reject) {
-      getUserInput(mailInput).then( mail => {
-        getUserInput(tokenInput).then(token => {
-          getUserInput(apiRouteInput).then(apiRoute => {
-            let url = formatUrl(apiRoute);
-            let json = {
-              mail: mail,
-              token: token,
-              api: url
-            };
+      getUserInput(nameInput).then( mail => {
+        getUserInput(mailInput).then( mail => {
+          getUserInput(dokkuInput).then( dokku => {
+            let json = { name, mail, dokku };
 
             shell.exec(`echo '${JSON.stringify(json)}' > ${HOME_AEROLAB}/${CFG_NAME}`);
             resolve('done');
           })
-        })
+        });
       });
     })
   }
