@@ -1,7 +1,7 @@
 {
-  "name": "aerolab-cli",
+  "name": "aerolab",
   "version": "1.0.0",
-  "description": "Automate boring development tasks, including setting up repos, issue boards, git, ci server, dockerfile, and have the ability to immediately ship an app to a staging server.",
+  "description": "Automate development tasks at Aerolab",
   "engines": {
     "node": ">=8",
     "npm": ">=5"
