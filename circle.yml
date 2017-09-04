@@ -5,6 +5,12 @@ machine:
 dependencies:
   pre:
     - 'echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ~/.npmrc'
+  override:
+    - echo "Ignore npm install"
+
+test:
+  override:
+    - echo "Ignore npm test"
 
 deployment:
   production:
