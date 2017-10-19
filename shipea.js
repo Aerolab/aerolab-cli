@@ -19,6 +19,9 @@ if( process.argv[2] === "help" ) {
 else if( process.argv[2] === "logs" ) {
   require('./utils/logs')(process.argv[3] || dokkuApp)
 }
+else if( process.argv[2] === "restart" ) {
+  require('./utils/restart')(process.argv[3] || dokkuApp)
+}
 else if( process.argv[2] === "destroy" ) {
   require('./utils/destroy')(process.argv[3] || dokkuApp)
 }
