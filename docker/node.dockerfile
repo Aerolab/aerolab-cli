@@ -9,4 +9,7 @@ RUN npm i
 
 COPY . /usr/src/app/
 
+# Run the build script (if any)
+RUN npm run build; exit 0
+
 CMD ["npm", "start"]

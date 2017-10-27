@@ -10,6 +10,7 @@ const fs = require('fs'),
 const aerolabConfigDirectory = path.join(os.homedir(), '.aerolab')
 const aerolabConfigPath = path.join(aerolabConfigDirectory, 'config.json')
 const gitConfigPath = path.join(os.homedir(), '.gitconfig')
+const tempDirectory = path.join(os.homedir(), '.aerolab/temp')
 
 
 function run(callback) {
@@ -92,5 +93,9 @@ function isValid() {
   return config.name && config.email && config.dokkuHost
 }
 
+function getTempDirectory(appname) {
+  return tempDirectory +'/'+ appname
+}
 
-module.exports = { run, get, isValid }
+
+module.exports = { run, get, isValid, getTempDirectory }
