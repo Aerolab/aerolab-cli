@@ -23,7 +23,7 @@ async function shipear() {
   shell.rm('-rf', tempDirectory)
   shell.mkdir('-p', tempDirectory)
 
-  const files = await shell.ls()
+  const files = await shell.ls('-A')
   const filesToIgnore = ["node_modules", ".git", ".next", ".vscode", ".idea", ".DS_Store", "build", "dist", "release", ".npm", ".grunt", ".gulp"]
   const filesToCopy = files.filter((f) => {
     return filesToIgnore.indexOf(f) === -1
