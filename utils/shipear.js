@@ -6,7 +6,7 @@ const fs = require('fs'),
       { getMainScripts } = require('./gulp'),
       chalk = require('chalk'),
       copyPaste = require('copy-paste'),
-      cwd = process.cwd();
+      cwd = process.cwd()
 
 
 async function shipear() {
@@ -25,8 +25,13 @@ async function shipear() {
 
   const files = await shell.ls('-A')
   const filesToIgnore = ["node_modules", ".git", ".next", ".vscode", ".idea", ".DS_Store", "build", "dist", "release", ".npm", ".grunt", ".gulp"]
+  
+  // Todo: This doesn't work with multiple folders
+  const gitIgnore = fs.existsSync(path.join(cwd, '.gitignore')) ? fs.readFileSync(path.join(cwd, '.gitignore'), 'utf-8') : ''
+  const filesInGitIgnore = gitIgnore.split("\n").filter(f => f.trim() !== '')
+
   const filesToCopy = files.filter((f) => {
-    return filesToIgnore.indexOf(f) === -1
+    return (! filesToIgnore.includes(f)) && (! filesInGitIgnore.includes(f))
   })
 
   // Copy all qualified files to the tempDirectory
@@ -57,6 +62,7 @@ async function shipear() {
 
   // Dockerfile for Node.JS
   const dockerfilePath = path.join(tempDirectory, 'Dockerfile')
+  
   if (!fs.existsSync(dockerfilePath)) {
     let dockerfile = fs.readFileSync(path.join(__dirname, '../docker/node.dockerfile'))
     fs.writeFileSync(path.join(tempDirectory, 'Dockerfile'), dockerfile)
