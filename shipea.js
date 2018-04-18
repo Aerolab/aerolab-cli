@@ -17,6 +17,9 @@ const dokkuApp = path.basename(cwd) +'-now'
 if( process.argv[2] === "help" ) {
   require('./utils/help')()
 }
+else if( process.argv[2] === "letsencrypt" ) {
+  require('./utils/letsencrypt')(process.argv[3] || dokkuApp)
+}
 else if( process.argv[2] === "logs" ) {
   require('./utils/logs')(process.argv[3] || dokkuApp)
 }

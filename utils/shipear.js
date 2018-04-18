@@ -12,7 +12,7 @@ const fs = require('fs'),
 async function shipear() {
   console.log("Shipeando...")
 
-  const dokkuApp = path.basename(cwd) +'-now'
+  const dokkuApp = (path.basename(cwd) +'-now').toLowerCase().replace(/\./g, '-')
   const dokkuUrl = 'http://'+ dokkuApp +'.'+ config.get().dokkuHost
 
   // To prevent messing up your current repo with unwanted commits, 
