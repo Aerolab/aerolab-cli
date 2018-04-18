@@ -4,7 +4,7 @@ chalk = require('chalk')
 
 function restart(dokkuApp) {
 
-  let spinner = ora({ text: 'Adding Lets Encrypt '+ chalk.bold.white(dokkuApp), spinner: 'dots' }).start();
+  let spinner = ora({ text: 'Adding Lets Encrypt to '+ chalk.bold.white(dokkuApp), spinner: 'dots' }).start();
 
   let logs = shell.exec(
     "ssh -tt dokku@wip.aerolab.co -- letsencrypt " + dokkuApp,
