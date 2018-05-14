@@ -6,7 +6,8 @@ const fs = require('fs'),
       { getMainScripts } = require('./gulp'),
       chalk = require('chalk'),
       copyPaste = require('copy-paste'),
-      cwd = process.cwd()
+      cwd = process.cwd(),
+      qrcode = require('qrcode-terminal')
 
 
 async function shipear() {
@@ -118,9 +119,13 @@ async function shipear() {
   copyPaste.copy(dokkuUrl)
   console.log('')
   console.log('El sitio va a estar en '+ chalk.bold.underline(dokkuUrl) +' (Copiado a tu portapapeles)')
+  qrcode.generate(dokkuUrl, {small: true});
   console.log('')
   shell.exec('git push dokku@wip.aerolab.co:'+ dokkuApp +' HEAD:refs/heads/master --force')
 
+  // Enable Wildcard HTTPS
+  shell.exec('ssh -tt dokku@wip.aerolab.co -- certs:add ' + dokkuApp + '  /home/dokku/.https/server.crt /home/dokku/.https/server.key', {silent:true})
+  
   // Go back to the previous dir
   shell.config.silent = true
   shell.popd()
